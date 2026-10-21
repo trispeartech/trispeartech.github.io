@@ -5,98 +5,316 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Trispear Tech</title>
 <meta name="description" content="Trispear Tech builds backend payment systems and ecommerce software.">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<script>document.documentElement.classList.add('js')</script>
 <style>
   :root {
-    --bg: #0a0a0a;
-    --text: #c8c8c8;
-    --muted: #8a8a8a;
-    --line: #2a2a2a;
-    --silver: linear-gradient(180deg, #f2f2f2 0%, #a8a8a8 100%);
+    --bg: #070707;
+    --panel: #0e0e0e;
+    --text: #d4d4d4;
+    --muted: #8c8c8c;
+    --dim: #5a5a5a;
+    --line: #222;
+    --bright: #f0f0f0;
+    --silver: linear-gradient(180deg, #fafafa 0%, #b4b4b4 55%, #7d7d7d 100%);
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; }
+  html { scroll-behavior: smooth; }
   body {
     background: var(--bg);
     color: var(--text);
     font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    overflow-x: hidden;
   }
-  main {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 96px 24px 64px;
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+  header {
+    position: fixed; inset: 0 0 auto 0; z-index: 10;
+    border-bottom: 1px solid transparent;
+    transition: background .3s, border-color .3s;
+  }
+  header.scrolled {
+    background: rgba(7, 7, 7, .82);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom-color: var(--line);
+  }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: .02em; color: var(--bright); }
+  .brand svg { width: 26px; height: 26px; }
+  .navlink { font-size: 15px; color: var(--muted); transition: color .2s; }
+  .navlink:hover, .navlink:focus-visible { color: var(--bright); }
+
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 0 80px;
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 30%, rgba(200, 200, 200, .08), transparent 70%),
+      linear-gradient(var(--line) 1px, transparent 1px) 0 0 / 64px 64px,
+      linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / 64px 64px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+    opacity: .6;
+  }
+  .hero .wrap { text-align: center; }
+  .mark { width: 136px; height: 136px; display: block; margin: 0 auto 32px; }
+  .mark .spear { transform-box: fill-box; transform-origin: bottom; }
+  .js .mark .spear { animation: rise 1s cubic-bezier(.2, .7, .2, 1) both; }
+  .js .mark .s1 { animation-delay: .15s; }
+  .js .mark .s3 { animation-delay: .3s; }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(18px) scaleY(.85); }
+    to { opacity: 1; transform: none; }
   }
   h1 {
     margin: 0;
-    font-size: clamp(40px, 8vw, 64px);
+    font-size: clamp(44px, 9vw, 88px);
     font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
+    letter-spacing: -0.03em;
+    line-height: 1.02;
     background: var(--silver);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
   .lead {
-    margin: 16px 0 0;
-    font-size: 20px;
+    margin: 20px auto 0;
+    max-width: 560px;
+    font-size: clamp(18px, 2.4vw, 22px);
     color: var(--muted);
   }
-  section {
-    margin-top: 72px;
-    border-top: 1px solid var(--line);
+  .cta {
+    display: inline-block;
+    margin-top: 40px;
+    padding: 13px 26px;
+    border: 1px solid #3a3a3a;
+    border-radius: 999px;
+    color: var(--bright);
+    font-size: 16px;
+    background: linear-gradient(180deg, #161616, #0b0b0b);
+    transition: border-color .2s, transform .2s;
   }
-  .item {
+  .cta:hover, .cta:focus-visible { border-color: #9a9a9a; transform: translateY(-1px); }
+  .scroll-hint {
+    position: absolute; left: 50%; bottom: 32px;
+    width: 1px; height: 48px;
+    background: linear-gradient(var(--dim), transparent);
+    transform: translateX(-50%);
+  }
+
+  section.block { padding: 120px 0; border-top: 1px solid var(--line); }
+  .eyebrow {
+    margin: 0 0 14px;
+    font-size: 13px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  h2 {
+    margin: 0 0 56px;
+    font-size: clamp(30px, 5vw, 44px);
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--bright);
+  }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .card {
+    position: relative;
+    padding: 32px 28px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color .3s, transform .3s;
+  }
+  .card::before {
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 1px;
+    background: linear-gradient(90deg, transparent, #bdbdbd, transparent);
+    opacity: 0; transition: opacity .3s;
+  }
+  .card:hover { border-color: #3a3a3a; transform: translateY(-3px); }
+  .card:hover::before { opacity: 1; }
+  .num { font: 500 13px/1 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--dim); }
+  .card h3 { margin: 20px 0 10px; font-size: 20px; font-weight: 600; color: var(--bright); }
+  .card p { margin: 0; color: var(--muted); }
+
+  .principles { display: grid; gap: 0; }
+  .principle {
+    display: grid; grid-template-columns: 200px 1fr; gap: 24px;
     padding: 28px 0;
     border-bottom: 1px solid var(--line);
   }
-  h2 {
-    margin: 0 0 6px;
-    font-size: 19px;
+  .principle:first-child { border-top: 1px solid var(--line); }
+  .principle h3 { margin: 0; font-size: 18px; font-weight: 600; color: var(--bright); }
+  .principle p { margin: 0; color: var(--muted); }
+
+  .contact { text-align: center; }
+  .contact h2 { margin-bottom: 20px; }
+  .contact p { margin: 0 auto 36px; max-width: 520px; color: var(--muted); }
+  .email {
+    display: inline-block;
+    font-size: clamp(22px, 4.5vw, 40px);
     font-weight: 600;
-    color: #e6e6e6;
+    letter-spacing: -0.01em;
+    background: var(--silver);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    border-bottom: 1px solid #444;
+    padding-bottom: 4px;
+    transition: border-color .2s;
   }
-  .item p { margin: 0; color: var(--muted); }
-  .contact { margin-top: 72px; }
-  .contact p { margin: 0 0 6px; color: var(--muted); }
-  a {
-    color: #e6e6e6;
-    text-decoration: none;
-    border-bottom: 1px solid #6a6a6a;
+  .email:hover, .email:focus-visible { border-bottom-color: #cfcfcf; }
+
+  footer { padding: 40px 0 48px; border-top: 1px solid var(--line); font-size: 14px; color: var(--dim); }
+  footer .wrap { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  footer svg { width: 18px; height: 18px; opacity: .7; }
+
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .8s ease, transform .8s cubic-bezier(.2, .7, .2, 1);
+    transition-delay: var(--d, 0s);
   }
-  a:hover, a:focus-visible { border-bottom-color: #e6e6e6; }
-  footer {
-    margin-top: 96px;
-    font-size: 14px;
-    color: #5f5f5f;
+  .js .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 640px) {
+    section.block { padding: 88px 0; }
+    .principle { grid-template-columns: 1fr; gap: 6px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .js .reveal, .js .mark .spear { opacity: 1; transform: none; transition: none; animation: none; }
   }
 </style>
 </head>
 <body>
-<main>
-  <h1>Trispear Tech</h1>
-  <p class="lead">Software engineering for payments and online stores.</p>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="silver" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fafafa"/>
+      <stop offset=".55" stop-color="#b4b4b4"/>
+      <stop offset="1" stop-color="#6e6e6e"/>
+    </linearGradient>
+    <symbol id="logo" viewBox="0 0 64 64">
+      <g fill="url(#silver)">
+        <g transform="rotate(-24 32 58)"><path class="spear s1" d="M32 12 L37 26 L33.6 29.5 V58 H30.4 V29.5 L27 26 Z"/></g>
+        <g transform="rotate(24 32 58)"><path class="spear s3" d="M32 12 L37 26 L33.6 29.5 V58 H30.4 V29.5 L27 26 Z"/></g>
+        <path class="spear s2" d="M32 2 L38 19 L34 23 V58 H30 V23 L26 19 Z"/>
+        <path d="M32 53 L37 58 L32 63 L27 58 Z"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
 
-  <section>
-    <div class="item">
-      <h2>Backend payment systems</h2>
-      <p>Payment flows, wallets, ledgers and payment provider integrations.</p>
+<header id="top">
+  <div class="wrap">
+    <a class="brand" href="#">
+      <svg aria-hidden="true"><use href="#logo"/></svg>
+      Trispear Tech
+    </a>
+    <a class="navlink" href="#contact">Contact</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <svg class="mark" viewBox="0 0 64 64" role="img" aria-label="Trispear Tech logo">
+        <g fill="url(#silver)">
+          <g transform="rotate(-24 32 58)"><path class="spear s1" d="M32 12 L37 26 L33.6 29.5 V58 H30.4 V29.5 L27 26 Z"/></g>
+        <g transform="rotate(24 32 58)"><path class="spear s3" d="M32 12 L37 26 L33.6 29.5 V58 H30.4 V29.5 L27 26 Z"/></g>
+        <path class="spear s2" d="M32 2 L38 19 L34 23 V58 H30 V23 L26 19 Z"/>
+        <path d="M32 53 L37 58 L32 63 L27 58 Z"/>
+        </g>
+      </svg>
+      <h1 class="reveal" style="--d:.35s">Trispear Tech</h1>
+      <p class="lead reveal" style="--d:.5s">Software engineering for payments and online stores. We build backend systems that handle real money and real orders.</p>
+      <a class="cta reveal" style="--d:.65s" href="#contact">Start a project</a>
     </div>
-    <div class="item">
-      <h2>Ecommerce development</h2>
-      <p>Online stores, checkout, catalog and order management.</p>
-    </div>
-    <div class="item">
-      <h2>Backend engineering</h2>
-      <p>APIs, services and databases, built to run in production.</p>
+    <div class="scroll-hint" aria-hidden="true"></div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <p class="eyebrow reveal">What we build</p>
+      <h2 class="reveal">Three things, done properly.</h2>
+      <div class="grid">
+        <div class="card reveal">
+          <span class="num">01</span>
+          <h3>Backend payment systems</h3>
+          <p>Payment flows, wallets, ledgers and payment provider integrations. Every transaction recorded, every balance adding up.</p>
+        </div>
+        <div class="card reveal" style="--d:.1s">
+          <span class="num">02</span>
+          <h3>Ecommerce development</h3>
+          <p>Online stores, checkout, catalog and order management. Fast for your customers, simple for your team.</p>
+        </div>
+        <div class="card reveal" style="--d:.2s">
+          <span class="num">03</span>
+          <h3>Backend engineering</h3>
+          <p>APIs, services and databases, built to run in production and easy to change later.</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <div class="contact">
-    <p>Get in touch</p>
-    <a href="mailto:info@trispeartech.com">info@trispeartech.com</a>
-  </div>
+  <section class="block">
+    <div class="wrap">
+      <p class="eyebrow reveal">How we work</p>
+      <h2 class="reveal">Pragmatic by default.</h2>
+      <div class="principles">
+        <div class="principle reveal">
+          <h3>Correct first</h3>
+          <p>When money moves, the numbers have to match. We test the paths that matter before anything goes live.</p>
+        </div>
+        <div class="principle reveal">
+          <h3>Keep it simple</h3>
+          <p>Fewer moving parts, less code, clear structure. Systems your team can read, run and own.</p>
+        </div>
+        <div class="principle reveal">
+          <h3>Ship and stay</h3>
+          <p>We deliver working software in small steps, then keep it running: monitoring, fixes and improvements.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <footer>&copy; 2026 Trispear Tech &middot; Individual Entrepreneur &middot; ID 305894342 &middot; Georgia</footer>
+  <section class="block contact" id="contact">
+    <div class="wrap">
+      <p class="eyebrow reveal">Contact</p>
+      <h2 class="reveal">Have something to build?</h2>
+      <p class="reveal">Tell us what you need and where you are today.</p>
+      <a class="email reveal" href="mailto:info@trispeartech.com">info@trispeartech.com</a>
+    </div>
+  </section>
 </main>
+
+<footer>
+  <div class="wrap">
+    <svg aria-hidden="true"><use href="#logo"/></svg>
+    <span>&copy; 2026 Trispear Tech &middot; Individual Entrepreneur &middot; ID 305894342 &middot; Georgia</span>
+  </div>
+</footer>
+
+<script>
+  const header = document.querySelector('header');
+  const onScroll = () => header.classList.toggle('scrolled', scrollY > 24);
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  const io = new IntersectionObserver(entries => {
+    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
 </body>
 </html>
